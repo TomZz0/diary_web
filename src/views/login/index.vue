@@ -2,8 +2,8 @@
   <div class="login-container">
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
 
-      <div class="title-container">
-        <h3 class="title">Login Form</h3>
+      <div class="title-container" >
+        <h3 class="title">欢迎使用日志系统包好用</h3>
       </div>
 
       <el-form-item prop="username">
@@ -13,8 +13,8 @@
         <el-input
           ref="username"
           v-model="loginForm.username"
-          placeholder="Username"
-          name="username"
+          placeholder="用户名"
+          name="用户名"
           type="text"
           tabindex="1"
           auto-complete="on"
@@ -30,8 +30,8 @@
           ref="password"
           v-model="loginForm.password"
           :type="passwordType"
-          placeholder="Password"
-          name="password"
+          placeholder="密码"
+          name="密码"
           tabindex="2"
           auto-complete="on"
           @keyup.enter.native="handleLogin"
@@ -41,12 +41,7 @@
         </span>
       </el-form-item>
 
-      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">Login</el-button>
-
-      <div class="tips">
-        <span style="margin-right:20px;">username: admin</span>
-        <span> password: any</span>
-      </div>
+      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">登录</el-button>
 
     </el-form>
   </div>
@@ -75,7 +70,7 @@ export default {
     return {
       loginForm: {
         username: 'admin',
-        password: '111111'
+        password: '123456'
       },
       loginRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
@@ -183,13 +178,22 @@ $light_gray:#eee;
   background-color: $bg;
   overflow: hidden;
 
+  //添加背景图
+  background-image: url('../../assets/404_images/bg1.jpg');
+  background-size: 100%;
+  display: flex;
+  align-items: center;
+
   .login-form {
     position: relative;
     width: 520px;
     max-width: 100%;
-    padding: 160px 35px 0;
+    padding: 100px 35px 0;
     margin: 0 auto;
     overflow: hidden;
+    background-color: #263445;
+    border-radius: 8px;
+    opacity: 0.7;
   }
 
   .tips {

@@ -49,30 +49,30 @@ export const constantRoutes = [
     redirect: '/dashboard',
     children: [{
       path: 'dashboard',
-      name: 'Dashboard',
+      name: '首页',
       component: () => import('@/views/dashboard/index'),
-      meta: { title: 'Dashboard', icon: 'dashboard' }
+      meta: { title: '首页', icon: 'dashboard', affix: true }
     }]
   },
 
   {
-    path: '/example',
+    path: '/sys',
     component: Layout,
-    redirect: '/example/table',
-    name: 'Example',
-    meta: { title: 'Example', icon: 'el-icon-s-help' },
+    redirect: '/sys/user',
+    name: 'sysManager',
+    meta: { title: '系统管理', icon: 'sys' },
     children: [
       {
-        path: 'table',
-        name: 'Table',
-        component: () => import('@/views/table/index'),
-        meta: { title: 'Table', icon: 'table' }
+        path: 'user',
+        name: 'user',
+        component: () => import('@/views/sys/user.vue'),
+        meta: { title: '用户管理', icon: 'sysManage' }
       },
       {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
-        meta: { title: 'Tree', icon: 'tree' }
+        path: 'diary',
+        name: 'diary',
+        component: () => import('@/views/sys/diary.vue'),
+        meta: { title: '日志管理', icon: 'diary' }
       }
     ]
   },

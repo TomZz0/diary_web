@@ -73,6 +73,12 @@ export const constantRoutes = [
         name: 'diary',
         component: () => import('@/views/sys/diary.vue'),
         meta: { title: '日志管理', icon: 'diary' }
+      },
+      {
+        path: 'data',
+        name: 'data',
+        component: () => import('@/views/sys/data.vue'),
+        meta: { title: '水文信息', icon: 'data' }
       }
     ]
   },

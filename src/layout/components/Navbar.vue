@@ -6,7 +6,7 @@
 
     <div class="right-menu">
       <el-dropdown class="avatar-container" trigger="click">
-        <div class="avatar-wrapper">
+        <div class="avatar-wrapper" >
           <img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar">
           <i class="el-icon-caret-bottom" />
         </div>
@@ -16,7 +16,7 @@
               个人信息
             </el-dropdown-item>
           </router-link>
-          <a target="_blank" href="https://baidu.com">
+          <a target="_blank" :href="avatar">
             <el-dropdown-item>主页</el-dropdown-item>
           </a>
           <el-dropdown-item divided @click.native="logout">

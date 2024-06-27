@@ -28,8 +28,8 @@
         <el-table-column prop="email" label="邮箱"/>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button @click="openModifyUI(scope.row)" type="primary" icon="el-icon-edit" size="mini">修改</el-button>
-            <el-button @click="deleteUser(scope.row.id)" type="danger" icon="el-icon-delete" size="mini">删除</el-button>
+            <el-button  @click="openModifyUI(scope.row)" type="primary" icon="el-icon-edit" size="mini">修改</el-button>
+            <el-button v-if="isAdmin===1" @click="deleteUser(scope.row.id)" type="danger" icon="el-icon-delete" size="mini">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -60,7 +60,6 @@
           <el-select v-model="userForm.roleName" placeholder="请选择角色">
             <!-- 下拉框选项 -->
             <el-option label="admin" value="admin"/>
-            <el-option label="vip" value="vip"/>
             <el-option label="user" value="user"/>
             <!-- 添加更多选项 -->
           </el-select>
@@ -87,7 +86,6 @@
           <el-select v-model="userForm.roleName" placeholder="请选择角色">
             <!-- 下拉框选项 -->
             <el-option label="admin" value="admin"/>
-            <el-option label="vip" value="vip"/>
             <el-option label="user" value="user"/>
             <!-- 添加更多选项 -->
           </el-select>
@@ -103,7 +101,9 @@
 
 <script>
 import userApi from '@/api/userManage'
-import row from "element-ui/packages/row";
+import row from 'element-ui/packages/row'
+import logApi from '@/store/modules/user'
+import dataApi from "@/api/sta";
 
 export default {
   computed: {
@@ -128,6 +128,7 @@ export default {
         pageSize: 10
       },
       userList: [],
+      isAdmin: 0,
       dialogFormVisible: false,
       dialogFormVisible2: false,
       userForm: {
@@ -139,7 +140,7 @@ export default {
       },
       rules: {
         username: [
-          {required: true, message: '请输入用户名', trigger: 'blur'},
+          { required: true, message: '请输入用户名', trigger: 'blur'},
           {min: 3, max: 10, message: '长度在 3 到10个字符', trigger: 'blur'}
         ],
         password: [
@@ -174,6 +175,9 @@ export default {
       userApi.getUserList(this.searchModel).then(response => {
         this.total = response.data.total
         this.userList = response.data.data
+      })
+      userApi.getInfo(logApi.state.token).then(response => {
+        this.isAdmin = response.data.roles[0] === 'user' ? 0 : 1
       })
     },
     openAddUI() {
@@ -224,9 +228,26 @@ export default {
       })
     },
     deleteUser(id) {
-      userApi.deleteUser(id).then(response => {
-        this.getUserList()
+      this.$confirm('确认永久删除该用户？后果自负！', '删除提示', {
+        iconClass: 'el-icon-question', // 自定义图标样式
+        confirmButtonText: '确认删除', // 确认按钮文字
+        cancelButtonText: '取消', // 取消按钮文字
+        showClose: true, // 是否显示右上角关闭按钮
+        type: 'warning' // 提示类型  success/info/warning/error
+      }).then(res => { // 选择确认按钮进入此方法
+        // 确认操作
+        alert('确认')
+        userApi.deleteUser(id).then(response => {
+          this.$message({
+            message: response.msg,
+            type: 'success'
+          })
+          this.getUserList()
+        })
+      }).catch(() => { // 选择取消按钮进入此方法
+        alert('取消')
       })
+
     }
   }
 }

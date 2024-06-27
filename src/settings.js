@@ -1,6 +1,6 @@
 module.exports = {
 
-  title: '日志系统',
+  title: '测站管理系统',
 
   /**
    * @type {boolean} true | false

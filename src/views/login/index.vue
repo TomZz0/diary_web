@@ -3,7 +3,7 @@
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
 
       <div class="title-container" >
-        <h3 class="title">欢迎使用日志系统包好用</h3>
+        <h3 class="title">欢迎使用测站管理系统，请先登录</h3>
       </div>
 
       <el-form-item prop="username">
@@ -41,15 +41,15 @@
         </span>
       </el-form-item>
 
-      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">登录</el-button>
-
+      <el-button :loading="loading1" type="primary" style="width:200px;margin-bottom:30px;"  @click.native.prevent="handleLogin">登录</el-button>
+      <el-button :loading="loading2" type="primary" style="width:200px;margin-bottom:30px;"  @click.native.prevent="handleRegis">注册</el-button>
     </el-form>
   </div>
 </template>
 
 <script>
 import { validUsername } from '@/utils/validate'
-
+import userApi from '@/api/userManage'
 export default {
   name: 'Login',
   data() {
@@ -76,7 +76,8 @@ export default {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
         password: [{ required: true, trigger: 'blur', validator: validatePassword }]
       },
-      loading: false,
+      loading1: false,
+      loading2: false,
       passwordType: 'password',
       redirect: undefined
     }
@@ -103,12 +104,29 @@ export default {
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
-          this.loading = true
+          this.loading1 = true
           this.$store.dispatch('user/login', this.loginForm).then(() => {
             this.$router.push({ path: this.redirect || '/' })
-            this.loading = false
+            this.loading1 = false
           }).catch(() => {
-            this.loading = false
+            this.loading1 = false
+          })
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
+    },
+    handleRegis() {
+      this.$refs.loginForm.validate(valid => {
+        if (valid) {
+          this.loading2 = true
+          userApi.addUser(this.loginForm).then(response => {
+            this.$message({
+              message: response.msg,
+              type: 'success'
+            })
+            this.loading2 = false
           })
         } else {
           console.log('error submit!!')

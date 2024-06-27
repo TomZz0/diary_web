@@ -1,12 +1,4 @@
 import request from '@/utils/request'
-
-export function login(data) {
-  return request({
-    url: '/user/login',
-    method: 'post',
-    data
-  })
-}
 export default {
   // 用于user.vue中调用后端接口
   getUserList(searchModel) {
@@ -42,6 +34,13 @@ export default {
       params: {
         id: id
       }
+    })
+  },
+  getInfo(token) {
+    return request({
+      url: '/user/info',
+      method: 'get',
+      params: { token }
     })
   }
 }
